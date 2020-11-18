@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const companySchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     description: {
         type: String,
@@ -17,13 +18,14 @@ const companySchema = new Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     logo: {
         type: String,
         required: true
     },
-    state:[
+    states:[
         {
             type: String,
             required: true

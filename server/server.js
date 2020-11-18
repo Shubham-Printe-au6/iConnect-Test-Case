@@ -4,7 +4,7 @@ const cors = require("cors");
 const mongoose = require('mongoose');
 
 // importing server routes
-
+const crudRoutes = require('./routes/crudRoutes');
 
 
 require ('dotenv').config();
@@ -35,7 +35,7 @@ connection.once('open', () => {
 
 
 // using server routes
-
+app.use('/api/companies', crudRoutes);
 
 
 //running the server on a port 
