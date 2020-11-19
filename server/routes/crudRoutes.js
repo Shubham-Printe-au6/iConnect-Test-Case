@@ -5,7 +5,7 @@ const Company = require('../models/company.model');
 // list all companies
 router.route('/').get((req, res) => {
     Company.find()
-    .then(companies => res.json(companies))
+    .then(companies => res.status(200).json(companies))
     .catch(err => res.status(400).json('Error:' + err));
 });
 
@@ -18,7 +18,7 @@ router.route('/add').post((req, res) => {
     newCompany.save()
     .then(() => res.json('Company added!'))
     .catch(err => {
-        res.status(400).json({
+        res.status(406).json({
             'Company': newCompany,
             'Error': err,
             'message': `Please use a different value for ${Object.keys(err.keyPattern)}`
@@ -44,7 +44,7 @@ router.route('/:id').delete((req, res) => {
 
 
 // update one company
-router.route('/update/:id').put((req, res) => { 
+router.route('/edit/:id').put((req, res) => { 
 
     Company.findById(req.params.id)
     .then(company => {
