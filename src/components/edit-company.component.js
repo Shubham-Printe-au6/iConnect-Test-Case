@@ -123,13 +123,11 @@ export default class EditCompany extends Component {
         // this is where the data is sent to the server and saved to the database
         axios.put(`http://localhost:5000/api/companies${window.location.pathname}`, company)
             .then(res => {
-                console.log(res.data);
                 window.location = '/';
             } 
                 )
             .catch(err => {
                 const company = err.response.data.Company;
-                console.log(company);
                 // setting back old data to current states
                 this.setState({
                     errorMessage: err.response.data.message,

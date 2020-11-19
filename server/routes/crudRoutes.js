@@ -9,7 +9,21 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error:' + err));
 });
 
-// list all companies by order
+// list all companies by company name
+router.route('/search/:companyName').get((req, res) => {
+    var companyName = req.params.companyName;
+    Company.find({
+        name: {
+            "$regex": companyName,
+            "$options": "i"
+        }
+    })
+    .sort({
+        name: 1
+    })
+    .then(companies => res.status(200).json(companies))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
 // create new company
 router.route('/add').post((req, res) => {

@@ -83,7 +83,6 @@ export default class CreateCompany extends Component {
         }
 
 
-            // console.log(states);
 
 
         // Getting Sate-wise Cities
@@ -138,13 +137,11 @@ export default class CreateCompany extends Component {
         // this is where the data is sent to the server and saved to the database
         axios.post('http://localhost:5000/api/companies/add', company)
             .then(res => {
-                console.log(res.data);
                 window.location = '/';
             } 
                 )
             .catch(err => {
                 const company = err.response.data.Company;
-                console.log(company);
                 // setting back old data to current states
                 this.setState({
                     errorMessage: err.response.data.message,

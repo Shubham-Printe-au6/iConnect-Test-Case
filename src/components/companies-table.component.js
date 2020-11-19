@@ -1,5 +1,7 @@
 import React from 'react';
 import CompanyRow from "./companies-row.component";
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const CompaniesTable = ({companies, loading}) => {
 
@@ -17,9 +19,42 @@ const CompaniesTable = ({companies, loading}) => {
                 <th scope="col">Contact Number</th>
                 <th scope="col">Company Email</th>
                 <th scope="col">Company Logo</th>
+                <th scope="col">States List</th>
+                <th scope="col">Cities List</th>
+                <th scope="col">Edit Company</th>
                 </tr>
             </thead>
+
             <tbody>
+                <tr>
+                    <th scope="col">
+                        <button><ExpandLessIcon/></button>
+                    </th>
+                    <th scope="col">
+                    <button><ExpandLessIcon/></button>
+                    </th>
+                    <th scope="col">
+                    <button><ExpandLessIcon/></button>
+                    </th>
+                    <th scope="col">
+                    <button><ExpandLessIcon/></button>
+                    </th>
+                </tr>
+                <tr>
+                <th scope="col">
+                        <button><ExpandMoreIcon/></button>
+                    </th>
+                    <th scope="col">
+                    <button><ExpandMoreIcon/></button>
+                    </th>
+                    <th scope="col">
+                    <button><ExpandMoreIcon/></button>
+                    </th>
+                    <th scope="col">
+                    <button><ExpandMoreIcon/></button>
+                    </th>
+                </tr>
+            
             {companies.map((company, index) => {
                 return (
                     <CompanyRow
