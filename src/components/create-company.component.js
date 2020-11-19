@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 import  Select from "react-select";
 import {states} from "../data/states";
 import {cities} from "../data/cities";
@@ -26,15 +27,18 @@ export default class CreateCompany extends Component {
             logo: "",
             states: [],
             cities: [],
-            totalCities: []
+            totalCities: [],
+            errorMessage: ""
         }
     }
+
 
     componentDidMount() {
         this.setState({
             totalCities: cities
         })
     }
+
 
     onChangeName(e) {
         this.setState({
@@ -62,31 +66,45 @@ export default class CreateCompany extends Component {
         });
     }
     onChangeStates(e) {
+        if(e===null){
+
+        }else{
         // Getting state data 
-        const states = [];
-        const limit = e.length < 3 ? e.length : 3;
+        var states = [];
+        const limit = e.length>3 ? 3 : e.length;
+
+
         for (let i = 0; i < limit; i++) {
         states.push(e[i].label);
         }
         this.setState({
             states: states
-        });
+        });            
+        }
+
+
+            // console.log(states);
+
 
         // Getting Sate-wise Cities
-        let cities = this.state.totalCities;
-        cities = cities.filter(function(city) {
-            if(city.state === states[0])
-            return city;
-            else if (city.state === states[1])
-            return city;
-            else if(city.state === states[2])
-            return city;
+        
+        var limitedCities = cities.filter(function(city) {
+            if(states === undefined){
+
+            }else {
+                if(city.state === states[0])
+                return city;
+                else if (city.state === states[1])
+                return city;
+                else if(city.state === states[2])
+                return city;
+            }
+            // else return null;
         });
 
         this.setState({
-            totalCities: cities
+            totalCities: limitedCities
         });
-        console.log(this.state.totalCities)
     }
 
 
@@ -118,11 +136,27 @@ export default class CreateCompany extends Component {
         }
 
         // this is where the data is sent to the server and saved to the database
-
-
-        console.log(company)
-
-        window.location = '/';
+        axios.post('http://localhost:5000/api/companies/add', company)
+            .then(res => {
+                console.log(res.data);
+                window.location = '/';
+            } 
+                )
+            .catch(err => {
+                const company = err.response.data.Company;
+                console.log(company);
+                // setting back old data to current states
+                this.setState({
+                    errorMessage: err.response.data.message,
+                    name: company.name,
+                    description: company.description,
+                    number: company.number,
+                    email: company.email,
+                    logo: company.logo,
+                    states: company.states,
+                    cities: company.cities,
+                });
+            });        
     }
 
 
@@ -130,6 +164,7 @@ export default class CreateCompany extends Component {
         return (
             <div>
       <h3>Create New Company Details</h3>
+      {this.state.errorMessage ? <p className="text-danger">{this.state.errorMessage}</p>: null}
       <form onSubmit={this.onSubmit}>
 
         {/* setting name */}

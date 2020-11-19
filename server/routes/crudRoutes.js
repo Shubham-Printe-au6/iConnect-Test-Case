@@ -9,6 +9,7 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error:' + err));
 });
 
+// list all companies by order
 
 // create new company
 router.route('/add').post((req, res) => {
